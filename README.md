@@ -1,4 +1,3 @@
-
 ```
 boilerplate-simple
 ├─ .air.toml
@@ -61,4 +60,18 @@ boilerplate-simple
    └─ response
       └─ response.go
 
+```
+
+# Run Application
+
+```
+make docker-up
+```
+
+# Run Migrate
+
+- Run application before run migrate in the different CLI
+
+```
+make migrate
 ```
