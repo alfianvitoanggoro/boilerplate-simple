@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: boilerplate-simple-app
+    build:
+      context: ../../
+      dockerfile: deploy/docker/Dockerfile
+      target: development
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    volumes:
+      - ../../:/app
+    working_dir: /app
+    env_file:
+      - ../../.env
+    depends_on:
+      - postgres
+    networks:
+      - bs-net
+    command: air
+
+  postgres:
+    container_name: boilerplate-simple-postgres
+    image: postgres:15
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - bs-net
+
+volumes:
+  postgres-data:
+
+networks:
+  bs-net:
+    name: bs-net
+    driver: bridge
