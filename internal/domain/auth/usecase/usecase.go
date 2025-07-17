@@ -1,11 +1,11 @@
-package usecase
+package auth_usecase
 
 import (
 	"errors"
 	"os"
 	"time"
 
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/domain"
+	user_model "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/model"
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/repository"
 	"github.com/alfianvitoanggoro/boilerplate-simple/pkg/hash"
 	"github.com/golang-jwt/jwt/v5"
@@ -29,10 +29,10 @@ func (u *authUsecase) Register(username, password, role string) error {
 	if err != nil {
 		return err
 	}
-	user := &domain.User{
+	user := &user_model.User{
 		Username: username,
 		Password: hashPwd,
-		Role:     domain.Role(role),
+		Role:     user_model.Role(role),
 	}
 	return u.repo.Create(user)
 }

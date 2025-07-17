@@ -1,4 +1,4 @@
-package domain
+package user_model
 
 type Role string
 

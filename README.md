@@ -1,12 +1,8 @@
 ```
 boilerplate-simple
 ├─ .air.toml
-├─ .env
-├─ .env.example
 ├─ Makefile
-├─ bin
-│  ├─ boilerplate-simple
-│  └─ build-errors.log
+├─ README.md
 ├─ cmd
 │  └─ server
 │     └─ main.go
@@ -19,22 +15,35 @@ boilerplate-simple
 ├─ internal
 │  ├─ app
 │  │  ├─ app.go
-│  │  └─ factory
-│  │     ├─ auth_factory.go
-│  │     ├─ factory.go
-│  │     └─ user_factory.go
+│  │  ├─ factory
+│  │  │  ├─ auth_factory.go
+│  │  │  ├─ factory.go
+│  │  │  └─ user_factory.go
+│  │  └─ routes
+│  │     ├─ auth_routes.go
+│  │     ├─ routes.go
+│  │     └─ user_routes.go
 │  ├─ config
 │  │  ├─ app.go
 │  │  ├─ config.go
 │  │  └─ db.go
-│  ├─ delivery
-│  │  ├─ auth_handler.go
-│  │  └─ user_handler.go
 │  ├─ domain
-│  │  └─ user.go
-│  ├─ dto
-│  │  ├─ auth.go
-│  │  └─ user.go
+│  │  ├─ auth
+│  │  │  ├─ dto
+│  │  │  │  └─ auth.go
+│  │  │  ├─ handler
+│  │  │  │  └─ handler.go
+│  │  │  └─ usecase
+│  │  │     └─ usecase.go
+│  │  └─ user
+│  │     ├─ dto
+│  │     │  └─ user.go
+│  │     ├─ handler
+│  │     │  └─ handler.go
+│  │     ├─ model
+│  │     │  └─ model.go
+│  │     └─ usecase
+│  │        └─ usecase.go
 │  ├─ infrastructure
 │  │  ├─ db
 │  │  │  └─ db.go
@@ -42,16 +51,9 @@ boilerplate-simple
 │  │  │  └─ migrate.go
 │  │  └─ repository
 │  │     └─ user_repository.go
-│  ├─ middleware
-│  │  ├─ jwt.go
-│  │  └─ rbac.go
-│  ├─ routes
-│  │  ├─ auth_routes.go
-│  │  ├─ routes.go
-│  │  └─ user_routes.go
-│  └─ usecase
-│     ├─ auth_usecase.go
-│     └─ user_usecase.go
+│  └─ middleware
+│     ├─ jwt.go
+│     └─ rbac.go
 └─ pkg
    ├─ hash
    │  └─ hash.go

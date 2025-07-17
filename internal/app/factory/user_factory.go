@@ -1,13 +1,13 @@
 package factory
 
 import (
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/delivery"
+	user_handler "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/handler"
+	user_usecase "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/usecase"
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/repository"
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/usecase"
 )
 
-func newUserFactory(userRepo repository.UserRepository) *delivery.UserHandler {
-	usecase := usecase.NewUserUsecase(userRepo)
-	handler := delivery.NewUserHandler(usecase)
+func newUserFactory(userRepo repository.UserRepository) *user_handler.UserHandler {
+	usecase := user_usecase.NewUserUsecase(userRepo)
+	handler := user_handler.NewUserHandler(usecase)
 	return handler
 }

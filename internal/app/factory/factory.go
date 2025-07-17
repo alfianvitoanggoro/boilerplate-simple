@@ -4,7 +4,8 @@ import (
 	"os"
 
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/config"
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/delivery"
+	auth_handler "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/auth/handler"
+	user_handler "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/handler"
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/db"
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/migration"
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/repository"
@@ -14,8 +15,8 @@ import (
 
 type Container struct {
 	Config      *config.Config
-	UserHandler *delivery.UserHandler
-	AuthHandler *delivery.AuthHandler
+	UserHandler *user_handler.UserHandler
+	AuthHandler *auth_handler.AuthHandler
 	DB          *gorm.DB
 }
 

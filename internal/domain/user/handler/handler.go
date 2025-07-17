@@ -1,17 +1,17 @@
-package delivery
+package user_handler
 
 import (
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/dto"
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/usecase"
+	user_dto "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/dto"
+	user_usecase "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/usecase"
 	"github.com/alfianvitoanggoro/boilerplate-simple/pkg/response"
 	"github.com/gofiber/fiber/v2"
 )
 
 type UserHandler struct {
-	Usecase usecase.UserUsecase
+	Usecase user_usecase.UserUsecase
 }
 
-func NewUserHandler(u usecase.UserUsecase) *UserHandler {
+func NewUserHandler(u user_usecase.UserUsecase) *UserHandler {
 	return &UserHandler{Usecase: u}
 }
 
@@ -33,7 +33,7 @@ func (h *UserHandler) GetByID(c *fiber.Ctx) error {
 }
 
 func (h *UserHandler) Create(c *fiber.Ctx) error {
-	var req dto.UserCreateRequest
+	var req user_dto.UserCreateRequest
 	if err := c.BodyParser(&req); err != nil {
 		return response.WriteError(c, fiber.StatusBadRequest, "Invalid request", err.Error())
 	}
@@ -46,7 +46,7 @@ func (h *UserHandler) Create(c *fiber.Ctx) error {
 
 func (h *UserHandler) Update(c *fiber.Ctx) error {
 	id := c.Params("id")
-	var req dto.UserUpdateRequest
+	var req user_dto.UserUpdateRequest
 	if err := c.BodyParser(&req); err != nil {
 		return response.WriteError(c, fiber.StatusBadRequest, "Invalid request", err.Error())
 	}

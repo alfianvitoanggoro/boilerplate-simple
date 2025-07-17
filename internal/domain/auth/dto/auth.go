@@ -1,4 +1,4 @@
-package dto
+package auth_dto
 
 type RegisterRequest struct {
 	Username string `json:"username"`
@@ -7,7 +7,6 @@ type RegisterRequest struct {
 }
 
 type RegisterResponse struct {
-	ID       uint   `json:"id"`
 	Username string `json:"username"`
 	Role     string `json:"role"`
 }

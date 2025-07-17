@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/app/factory"
+	"github.com/alfianvitoanggoro/boilerplate-simple/internal/app/routes"
 	"github.com/alfianvitoanggoro/boilerplate-simple/internal/config"
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/routes"
 	"github.com/alfianvitoanggoro/boilerplate-simple/pkg/logger"
 	"github.com/gofiber/fiber/v2"
 )

@@ -1,22 +1,22 @@
-package delivery
+package auth_handler
 
 import (
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/dto"
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/usecase"
+	auth_dto "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/auth/dto"
+	auth_usecase "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/auth/usecase"
 	"github.com/alfianvitoanggoro/boilerplate-simple/pkg/response"
 	"github.com/gofiber/fiber/v2"
 )
 
 type AuthHandler struct {
-	Usecase usecase.AuthUsecase
+	Usecase auth_usecase.AuthUsecase
 }
 
-func NewAuthHandler(u usecase.AuthUsecase) *AuthHandler {
+func NewAuthHandler(u auth_usecase.AuthUsecase) *AuthHandler {
 	return &AuthHandler{Usecase: u}
 }
 
 func (h *AuthHandler) Register(c *fiber.Ctx) error {
-	var req dto.RegisterRequest
+	var req auth_dto.RegisterRequest
 	if err := c.BodyParser(&req); err != nil {
 		return response.WriteError(c, fiber.StatusBadRequest, "Invalid request", err.Error())
 	}
@@ -24,7 +24,7 @@ func (h *AuthHandler) Register(c *fiber.Ctx) error {
 	if err != nil {
 		return response.WriteError(c, fiber.StatusBadRequest, "Register failed", err.Error())
 	}
-	resp := dto.RegisterResponse{
+	resp := auth_dto.RegisterResponse{
 		Username: req.Username,
 		Role:     req.Role,
 	}
@@ -32,7 +32,7 @@ func (h *AuthHandler) Register(c *fiber.Ctx) error {
 }
 
 func (h *AuthHandler) Login(c *fiber.Ctx) error {
-	var req dto.LoginRequest
+	var req auth_dto.LoginRequest
 	if err := c.BodyParser(&req); err != nil {
 		return response.WriteError(c, fiber.StatusBadRequest, "Invalid request", err.Error())
 	}
@@ -40,6 +40,6 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 	if err != nil {
 		return response.WriteError(c, fiber.StatusUnauthorized, "Login failed", err.Error())
 	}
-	resp := dto.LoginResponse{Token: token}
+	resp := auth_dto.LoginResponse{Token: token}
 	return response.WriteSuccess(c, fiber.StatusOK, "Login success", resp)
 }
