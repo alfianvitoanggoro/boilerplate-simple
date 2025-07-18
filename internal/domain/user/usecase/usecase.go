@@ -1,17 +1,18 @@
 package user_usecase
 
 import (
-	user_dto "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/dto"
-	user_model "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/model"
-	"github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/repository"
+	   user_dto "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/dto"
+	   user_model "github.com/alfianvitoanggoro/boilerplate-simple/internal/domain/user/model"
+	   "github.com/alfianvitoanggoro/boilerplate-simple/internal/infrastructure/repository"
+	   "github.com/alfianvitoanggoro/boilerplate-simple/pkg/response"
 )
 
 type UserUsecase interface {
-	GetAll() ([]user_dto.UserResponse, error)
-	GetByID(id string) (user_dto.UserResponse, error)
-	Create(req user_dto.UserCreateRequest) (user_dto.UserResponse, error)
-	Update(id string, req user_dto.UserUpdateRequest) (user_dto.UserResponse, error)
-	Delete(id string) error
+	   GetAll(page, limit int) ([]user_dto.UserResponse, *response.Meta, error)
+	   GetByID(id string) (user_dto.UserResponse, error)
+	   Create(req user_dto.UserCreateRequest) (user_dto.UserResponse, error)
+	   Update(id string, req user_dto.UserUpdateRequest) (user_dto.UserResponse, error)
+	   Delete(id string) error
 }
 
 type userUsecase struct {
@@ -22,20 +23,27 @@ func NewUserUsecase(r repository.UserRepository) UserUsecase {
 	return &userUsecase{repo: r}
 }
 
-func (u *userUsecase) GetAll() ([]user_dto.UserResponse, error) {
-	users, err := u.repo.FindAll()
-	if err != nil {
-		return nil, err
-	}
-	var resp []user_dto.UserResponse
-	for _, user := range users {
-		resp = append(resp, user_dto.UserResponse{
-			ID:       user.ID,
-			Username: user.Username,
-			Role:     string(user.Role),
-		})
-	}
-	return resp, nil
+func (u *userUsecase) GetAll(page, limit int) ([]user_dto.UserResponse, *response.Meta, error) {
+	   users, total, err := u.repo.FindAllPaginated(page, limit)
+	   if err != nil {
+			   return nil, nil, err
+	   }
+	   var resp []user_dto.UserResponse
+	   for _, user := range users {
+			   resp = append(resp, user_dto.UserResponse{
+					   ID:       user.ID,
+					   Username: user.Username,
+					   Role:     string(user.Role),
+			   })
+	   }
+	   totalPage := (total + limit - 1) / limit
+	   meta := &response.Meta{
+			   Page:      page,
+			   Limit:     limit,
+			   Total:     total,
+			   TotalPage: totalPage,
+	   }
+	   return resp, meta, nil
 }
 
 func (u *userUsecase) GetByID(id string) (user_dto.UserResponse, error) {

@@ -8,7 +8,7 @@ import (
 type UserRepository interface {
 	FindByUsername(username string) (*user_model.User, error)
 	FindByID(id string) (*user_model.User, error)
-	FindAll() ([]user_model.User, error)
+	FindAllPaginated(page, limit int) ([]user_model.User, int, error)
 	Create(user *user_model.User) error
 	Update(id string, user *user_model.User) error
 	Delete(id string) error
@@ -38,12 +38,15 @@ func (r *userRepository) FindByID(id string) (*user_model.User, error) {
 	return &user, nil
 }
 
-func (r *userRepository) FindAll() ([]user_model.User, error) {
+func (r *userRepository) FindAllPaginated(page, limit int) ([]user_model.User, int, error) {
 	var users []user_model.User
-	if err := r.db.Find(&users).Error; err != nil {
-		return nil, err
+	var total int64
+	r.db.Model(&user_model.User{}).Count(&total)
+	offset := (page - 1) * limit
+	if err := r.db.Limit(limit).Offset(offset).Find(&users).Error; err != nil {
+		return nil, 0, err
 	}
-	return users, nil
+	return users, int(total), nil
 }
 
 func (r *userRepository) Update(id string, user *user_model.User) error {

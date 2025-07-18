@@ -16,11 +16,14 @@ func NewUserHandler(u user_usecase.UserUsecase) *UserHandler {
 }
 
 func (h *UserHandler) GetAll(c *fiber.Ctx) error {
-	users, err := h.Usecase.GetAll()
+	// Example: get pagination params from query
+	page := c.QueryInt("page", 1)
+	limit := c.QueryInt("limit", 10)
+	users, meta, err := h.Usecase.GetAll(page, limit)
 	if err != nil {
 		return response.WriteError(c, fiber.StatusInternalServerError, "Failed to get users", err.Error())
 	}
-	return response.WriteSuccess(c, fiber.StatusOK, "Get all users success", users)
+	return response.WriteSuccessWithMeta(c, fiber.StatusOK, "Get all users success", users, meta)
 }
 
 func (h *UserHandler) GetByID(c *fiber.Ctx) error {
